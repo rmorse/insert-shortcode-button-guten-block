@@ -6,6 +6,7 @@ const { Button, Dashicon, Tooltip, IconButton, Toolbar } = wp.components;
 const { Component, Fragment } = wp.element;
 
 //standard registerBlockType init
+
 registerBlockType( 'my-block-plugin/block-w-insert-shortcode', {
 	title: 'Block w Shortcode Button', //any title you like
 	icon: 'universal-access-alt', //any dashicon or svg
@@ -35,17 +36,17 @@ registerBlockType( 'my-block-plugin/block-w-insert-shortcode', {
 			};
 		}
 		
-		//same as before, except `this` actually references this component
+		//get a local reference to the editor on setup
 		setupEditor( editor ) {
 			this.editor = editor;
 		}
 		
-		//no change here again, except the binding of `this`
+		//update attributes when content is updated
 		onChangeContent( newContent ) {
 			this.props.setAttributes( { content: newContent } );
 		}
 		
-		//slightly different pattern of syntax here, we're returning a function
+		//tinymce interaction when button is clicked
 		onClickShortcodeButton() {
 			return () => {
 				
@@ -59,7 +60,6 @@ registerBlockType( 'my-block-plugin/block-w-insert-shortcode', {
 			};
 		}
 		
-		//all react components require render - this is what will be returned by our component
 		render() {
 			const {
 				attributes,
@@ -67,8 +67,8 @@ registerBlockType( 'my-block-plugin/block-w-insert-shortcode', {
 				className,
 			} = this.props;
 			
-			//here we can see the return is similar to what we would have in our usual `edit` function
-			return (
+			//return toolbar and richtext components
+			return ( 
 				<Fragment>
 					<BlockControls
 						controls={ [
@@ -93,7 +93,7 @@ registerBlockType( 'my-block-plugin/block-w-insert-shortcode', {
 		}
 	},
 	
-	//for saving to the DB
+	//save our content to the DB
 	save: function( props ) {
 		
 		//save the content variable
